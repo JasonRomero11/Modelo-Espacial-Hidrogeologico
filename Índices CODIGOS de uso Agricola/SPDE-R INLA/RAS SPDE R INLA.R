@@ -1,9 +1,9 @@
 #########################################################################################
-#######"MODELADO ESPACIAL HIDROGEOL”GICO PARA DETERMINAR ÕNDICES DE CALIDAD##############
-#######Y VULNERABILIDAD DE LAS AGUAS SUBTERR¡NEAS EN LA ZONA CENTRO DE BOYAC¡"###########
+#######"MODELADO ESPACIAL HIDROGEOL√ìGICO PARA DETERMINAR √çNDICES DE CALIDAD##############
+#######Y VULNERABILIDAD DE LAS AGUAS SUBTERR√ÅNEAS EN LA ZONA CENTRO DE BOYAC√Å"###########
 
 #################################################################
-####C¡LCULO DE INDICE DE CALIDAD PARA USO AGRICOLA -SPDE ####
+####C√ÅLCULO DE INDICE DE CALIDAD PARA USO AGRICOLA -SPDE ####
 #################################################################
 
 
@@ -214,8 +214,8 @@ MeshNoConvex1<-inla.mesh.2d(
 
 RASSPDEmaterMesNohConvex1 <- inla.spde2.matern(mesh = MeshNoConvex1, alpha = 2,constr = TRUE) ##Modelo Mathern
 
-#Luego generamos el conjunto de Ìndices para el modelo SPDE
-#Especificamos el nombre del efecto ( s), s es GAUSS y el n˙mero de vÈrtices en el modelo SPDE
+#Luego generamos el conjunto de √≠ndices para el modelo SPDE
+#Especificamos el nombre del efecto ( s), s es GAUSS y el n√∫mero de v√©rtices en el modelo SPDE
 
 s.indexMeshNoConvex1 <- inla.spde.make.index(name="spatial.field",n.spde=RASSPDEmaterMesNohConvex1 $n.spde)
 
@@ -314,7 +314,7 @@ ggplot(dpm) + geom_tile(aes(Este, Norte, fill = value)) +
     name = "RAS",
     low = "blue", high = "orange"
   ) +  
-  ggtitle("Õndice de calidad del agua RAS \nPredicciones SPDE sin Covariables")+theme(plot.title = element_text(hjust = 0.5))
+  ggtitle("√çndice de calidad del agua RAS \nPredicciones SPDE sin Covariables")+theme(plot.title = element_text(hjust = 0.5))
 theme_bw()
 
 
@@ -366,7 +366,7 @@ par(mfrow = c(1, 2))
 hist(WQIINLAMeshNoConvex1$cpo$pit, main="", breaks = 10, xlab = "PIT")
 qqplot(qunif(ppoints(length(WQIINLAMeshNoConvex1$cpo$pit))), 
        WQIINLAMeshNoConvex1$cpo$pit, main = "Q-Q plot for Unif(0,1)", 
-       xlab = "Cuantiles teÛricos", ylab = "Cuantiles muestrales")
+       xlab = "Cuantiles te√≥ricos", ylab = "Cuantiles muestrales")
 
 ####CON COVARIABLES  SIGNIFICATIVAS
 
@@ -413,7 +413,7 @@ par(mfrow = c(1, 2))
 hist(RASINLAMeshNoConvex1$cpo$pit, main="", breaks = 10, xlab = "PIT")
 qqplot(qunif(ppoints(length(RASINLAMeshNoConvex1$cpo$pit))), 
        RASINLAMeshNoConvex1$cpo$pit, main = "Q-Q plot for Unif(0,1)", 
-       xlab = "Cuantiles teÛricos", ylab = "Cuantiles muestrales")
+       xlab = "Cuantiles te√≥ricos", ylab = "Cuantiles muestrales")
 
 
 
@@ -422,18 +422,15 @@ IndexPredic <- inla.stack.index(Union_stack, tag = "pred")$data
 
 pred_mean2 <-RASINLAMeshNoConvex1$summary.fitted.values[IndexPredic, "mean"]
 summary(pred_mean2)
-###ANTI-TRANSFORMACI”N DE LOS DATOS 
-#FunciÛn
+###ANTI-TRANSFORMACI√ìN DE LOS DATOS 
+#Funci√≥n
 InversaBoxcox<-function(z,lambda){
   
   res=exp(log(z*lambda+1)/lambda)
   return(res)
 }
-pred_mean2<-pred_mean2*sd(DatosCampo$RAS)+mean(DatosCampo$RAS)
-pred_mean2<-InversaBoxcox(pred_mean2,lambdaRAS)
-pred_mean2<-exp(pred_mean2)
-summary(pred_mean2)
-#####Anti-transformaciÛn de los betas---Se tomo el exponencial, ya que el lambda es cercano a cero. 
+                              
+ #####Anti-transformaci√≥n de los betas---Se tomo el exponencial, ya que el lambda es cercano a cero. 
 
 
 Intercepto<-inla.emarginal(exp, RASINLAMeshNoConvex1$marginals.fixed$b0)0.00198013
@@ -530,7 +527,7 @@ ggplot(dpm) + geom_tile(aes(Este, Norte, fill = value)) +
     name = "RAS",
     low = "blue", high = "orange"
   ) +  
-  ggtitle("Õndice de calidad del agua RAS \nPredicciones SPDE con Covariables")+theme(plot.title = element_text(hjust = 0.5))
+  ggtitle("√çndice de calidad del agua RAS \nPredicciones SPDE con Covariables")+theme(plot.title = element_text(hjust = 0.5))
 theme_bw()
 
 
@@ -552,7 +549,7 @@ dataf1 <- sp::SpatialPointsDataFrame(coords = coords, data = Covariables[, -c(1:
 dataframe <- data.frame(dataf1)
 
 Dmax<-sqrt((max(coords[,1])-min(coords[,1]))^2+(max(coords[,2])-min(coords[,2]))^2)
-Dusar<-Dmax/15 # Valor numÈrico que proporciona el radio de la zona de influencia espacial alrededor de la ubicaciÛn del punto excluido para la validacion cruzada
+Dusar<-Dmax/15 # Valor num√©rico que proporciona el radio de la zona de influencia espacial alrededor de la ubicaci√≥n del punto excluido para la validacion cruzada
 ss <- 211
 formMeshNoConvex1 <- Y.RAS ~ 0+y.intercept+SO4Estan+BoxCL+BoxDUREZA+BoxSDT+BoxTEM+BoxHCO3
 cv <- inlasloo(dataframe = dataframe,
